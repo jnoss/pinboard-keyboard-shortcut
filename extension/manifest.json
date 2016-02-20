@@ -25,6 +25,12 @@
         "default": "Alt+D"
       },
       "description": "Bookmark the current page on Pinboard"
+    },
+    "bookmark-readlater-on-pinboard": {
+      "suggested_key": {
+        "default": "Alt+Shift+D"
+      },
+      "description": "Bookmark the current page to Pinboard Read Later (no prompting)"
     }
   },
 

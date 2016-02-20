@@ -2,12 +2,20 @@ closeEventBound = false;
 
 chrome.commands.onCommand.addListener(function(command) {
 
-    if (command === 'bookmark-on-pinboard') {
+    if (command === 'bookmark-on-pinboard' || command === 'bookmark-readlater-on-pinboard') {
 
         chrome.tabs.query({active:true, currentWindow: true}, function (tabs) {
 
             if (tabs[0].url.substring(0,9) == 'chrome://') {
                 return;
+            }
+
+            // get the base url to use for the command we were passed
+            if (command === 'bookmark-on-pinboard') {
+              urlbase = 'https://pinboard.in/add?url=';
+            }
+            else if (command === 'bookmark-readlater-on-pinboard') {
+              urlbase = 'https://pinboard.in/add?later=yes&noui=yes&jump=close&url=';
             }
 
             // use message passing to get the selected text (if any) to use as the description
@@ -24,7 +32,7 @@ chrome.commands.onCommand.addListener(function(command) {
                 // so that the tab isn't created before the response with the description
                 // is received
                 chrome.tabs.create({
-                                url: 'https://pinboard.in/add?url=' + encodeURIComponent(tabs[0].url) + '&title=' + encodeURIComponent(tabs[0].title) +
+                                url: urlbase + encodeURIComponent(tabs[0].url) + '&title=' + encodeURIComponent(tabs[0].title) +
                                 '&description=' + encodeURIComponent(description),
                                 index: tabs[0].index,
                             });
